@@ -1,4 +1,4 @@
-# Go Ec2
+# Go_Cloud_Monitoring
 J'espère qu'on trouvera un nom plus rigolo :)
 
 ## Setup
