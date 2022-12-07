@@ -1,4 +1,4 @@
-module Go_Ec2
+module Go_Cloud_Monitoring
 
 go 1.19
 
