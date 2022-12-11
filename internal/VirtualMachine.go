@@ -10,18 +10,6 @@ func NewVirtualMachine(name, os, imageId string) *VirtualMachine {
 	return &VirtualMachine{name: name, os: os, imageId: imageId}
 }
 
-func (vm *VirtualMachine) SetName(name string) {
-	vm.name = name
-}
-
-func (vm *VirtualMachine) SetOs(os string) {
-	vm.os = os
-}
-
-func (vm *VirtualMachine) SetImageId(imageId string) {
-	vm.imageId = imageId
-}
-
 func (vm *VirtualMachine) GetName() string {
 	return vm.name
 }
