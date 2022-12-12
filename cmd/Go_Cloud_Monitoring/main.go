@@ -6,7 +6,9 @@ import (
 )
 
 func main() {
-	a, err := pkg.ListEc2("eu-north-1")
+
+	vm := pkg.NewAwsVirtualMachineServiceImpl("", "eu-north-1")
+	a, err := vm.DescribeVirtualachines()
 	if err != nil {
 		pkg.ErrPrint(err)
 	}

@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestProperties_NominalCase_GetAllProperties(t *testing.T) {
+func Test_VirtualMachine_Properties_NominalCase_GetAllProperties(t *testing.T) {
 	name := "test"
 	os := "linux"
 	imageId := "1234"

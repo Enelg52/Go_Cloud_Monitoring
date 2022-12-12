@@ -2,7 +2,7 @@
 J'espère qu'on trouvera un nom plus rigolo :)
 
 ## TODO
-- [ ] Faire le test pour (ListEc2)[/Go_Cloud_Monitoring/monitoring/list_ec2.go]
+- [x] Faire le test pour (ListEc2)[/Go_Cloud_Monitoring/monitoring/list_ec2.go]
 
 ## Setup
 
