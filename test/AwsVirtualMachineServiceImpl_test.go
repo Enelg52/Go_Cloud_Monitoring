@@ -5,10 +5,12 @@ import (
 	"testing"
 )
 
-func Test_AwsVirtualMachineServiceImpl_Properties_NominalCase_GetAllProperties(t *testing.T) {
-	cloudProfileName := "test"
-	region := "eu-north-1"
+var (
+	cloudProfileName = "test"
+	region           = "eu-north-1"
+)
 
+func Test_AwsVirtualMachineServiceImpl_Properties_NominalCase_GetAllProperties(t *testing.T) {
 	// given : Instancier un nouvel objet virtual machine
 
 	awsVirtualMachineService := pkg.NewAwsVirtualMachineServiceImpl(cloudProfileName, region)
@@ -27,9 +29,6 @@ func Test_AwsVirtualMachineServiceImpl_Properties_NominalCase_GetAllProperties(t
 }
 
 func Test_AwsVirtualMachineServiceImpl_DescribeInstance(t *testing.T) {
-	cloudProfileName := "test"
-	region := "eu-north-1"
-
 	// given : Instancier un nouvel objet virtual machine
 	awsVirtualMachineService := pkg.NewAwsVirtualMachineServiceImpl(cloudProfileName, region)
 	i, err := awsVirtualMachineService.DescribeVirtualachines()
