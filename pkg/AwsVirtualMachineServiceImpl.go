@@ -32,7 +32,7 @@ func (awsVmService *AwsVirtualMachineServiceImpl) SetRegion(region string) {
 	awsVmService.region = region
 }
 
-func (awsVmService *AwsVirtualMachineServiceImpl) DescribeVirtualachines() ([]*internal.VirtualMachine, error) {
+func (awsVmService *AwsVirtualMachineServiceImpl) DescribeVirtualMachines() ([]*internal.VirtualMachine, error) {
 	sess, err := session.NewSession(&aws.Config{
 		Region: aws.String(awsVmService.GetRegion())},
 	)
