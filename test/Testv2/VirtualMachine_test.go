@@ -13,7 +13,16 @@ var (
 	virtualMachine *internal.VirtualMachine
 )
 
-// Before all
+/*
+==============================================================
+Dans cette variante, on utilise la méthode TestMain() qui à été faite pour des tests unitairs. Dans ce main, on peut définir la séquence de nos test. Les before each/ after each sont simulé dans notre méthode de test.
+Problème : Il peut y avoir qu'un TestMain par package. Je vois donc plusieurs solutions :
+- Faire un package par objet a tester
+- Faire un before all / after all pour tout les tests.
+==============================================================
+*/
+
+// Main de TOUTE les methodes de tests
 func TestMain(m *testing.M) {
 	beforeAll()
 	exitCode := m.Run()
@@ -44,7 +53,8 @@ func Test_VirtualMachine_Properties_NominalCase_GetAllProperties(t *testing.T) {
 
 	// given : Instancier un nouvel objet virtual machine
 	beforeEach()
-	defer afterAll()
+	// S'execute quand la fonction se termine
+	defer afterEach()
 	// when : Get all properties
 	virtualMachineName := virtualMachine.GetName()
 	virtualMachineOs := virtualMachine.GetOs()
