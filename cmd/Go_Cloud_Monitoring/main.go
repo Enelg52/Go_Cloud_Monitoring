@@ -7,21 +7,17 @@ import (
 )
 
 func main() {
-	vm1 := pkg.NewAwsVirtualMachineServiceImpl("", "eu-north-1")
-	vm2 := pkg.NewCloudVirtualMachineServiceImpl("", "")
-
+	vm1, err := pkg.NewAwsVirtualMachineServiceImpl("", "eu-north-1")
+	if err != nil {
+		pkg.ErrPrint(err)
+		return
+	}
 	decr1, err := describeVirtualMachines(vm1)
 	if err != nil {
+		pkg.ErrPrint(err)
 		return
 	}
 	for _, v := range decr1 {
-		fmt.Println(v)
-	}
-	decr2, err := describeVirtualMachines(vm2)
-	if err != nil {
-		return
-	}
-	for _, v := range decr2 {
 		fmt.Println(v)
 	}
 }

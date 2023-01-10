@@ -5,4 +5,7 @@ type IVirtualMachineService interface {
 	GetName() string
 	GetOs() string
 	GetImageId() string
+	GetInstanceId() string
+	GetStatus() State
+	GetInstanceType() string
 }

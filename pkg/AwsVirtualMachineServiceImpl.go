@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"Go_Cloud_Monitoring/internal"
+	"errors"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/ec2"
@@ -12,8 +13,21 @@ type AwsVirtualMachineServiceImpl struct {
 	region           string
 }
 
-func NewAwsVirtualMachineServiceImpl(cloudProfileName string, region string) *AwsVirtualMachineServiceImpl {
-	return &AwsVirtualMachineServiceImpl{cloudProfileName: cloudProfileName, region: region}
+func NewAwsVirtualMachineServiceImpl(cloudProfileName string, region string) (*AwsVirtualMachineServiceImpl, error) {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String(region)},
+	)
+	if err != nil {
+		return nil, err
+	}
+	ec2Svc := ec2.New(sess)
+	//Test the creds
+	_, err = ec2Svc.DescribeInstances(nil)
+
+	if err != nil {
+		err = errors.New("newAws_badRegion_throwException (invalid region)")
+	}
+	return &AwsVirtualMachineServiceImpl{cloudProfileName: cloudProfileName, region: region}, err
 }
 
 func (awsVmService *AwsVirtualMachineServiceImpl) GetCloudProfileName() string {
@@ -46,9 +60,30 @@ func (awsVmService *AwsVirtualMachineServiceImpl) DescribeVirtualMachines() ([]*
 		return nil, err
 	} else {
 		// Create a new VirtualMachine
-		vmList := make([]*internal.VirtualMachine, len(result.Reservations))
-		for id, inst := range result.Reservations {
-			vmList[id] = internal.NewVirtualMachine(*inst.Instances[0].InstanceId, *inst.Instances[0].ImageId, *inst.Instances[0].InstanceType)
+
+		//Get size off the 2d array
+		size := 0
+		for _, inst := range result.Reservations {
+			for range inst.Instances {
+				size++
+			}
+		}
+		//make the return array
+		vmList := make([]*internal.VirtualMachine, size)
+
+		id := 0
+		for _, inst := range result.Reservations {
+			for _, val := range inst.Instances {
+				vmList[id] = internal.NewVirtualMachine(
+					*val.Tags[0].Value,              //name
+					*val.PlatformDetails,            //os
+					*val.ImageId,                    //imageId
+					*val.InstanceId,                 //instanceId
+					*val.InstanceType,               //instanceType
+					internal.State(*val.State.Name), //state
+				)
+				id++
+			}
 		}
 		return vmList, error(nil)
 	}
