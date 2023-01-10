@@ -88,3 +88,44 @@ func (awsVmService *AwsVirtualMachineServiceImpl) DescribeVirtualMachines() ([]*
 		return vmList, error(nil)
 	}
 }
+
+func (awsVmService *AwsVirtualMachineServiceImpl) StartInstances(instanceId string) error {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String(awsVmService.GetRegion())},
+	)
+	if err != nil {
+		return err
+	}
+	ec2Svc := ec2.New(sess)
+	input := &ec2.StartInstancesInput{
+		InstanceIds: []*string{
+			aws.String(instanceId),
+		},
+	}
+	_, err = ec2Svc.StartInstances(input)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (awsVmService *AwsVirtualMachineServiceImpl) StopInstances(instanceId string) error {
+	sess, err := session.NewSession(&aws.Config{
+		Region: aws.String(awsVmService.GetRegion())},
+	)
+	if err != nil {
+		return err
+	}
+
+	ec2Svc := ec2.New(sess)
+	input := &ec2.StopInstancesInput{
+		InstanceIds: []*string{
+			aws.String(instanceId),
+		},
+	}
+	_, err = ec2Svc.StopInstances(input)
+	if err != nil {
+		return err
+	}
+	return nil
+}
